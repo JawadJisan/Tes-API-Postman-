@@ -1,0 +1,852 @@
+{
+	"info": {
+		"_postman_id": "b0d41cb8-a3ac-49d5-b403-347777932d86",
+		"name": "Test-Rest-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20717600",
+		"_collection_link": "https://lively-zodiac-227390.postman.co/workspace/Airepro-Solution-Pvt.~b97ec961-121b-4b6c-850e-a87363baeabe/collection/20717600-b0d41cb8-a3ac-49d5-b403-347777932d86?action=share&source=collection_link&creator=20717600"
+	},
+	"item": [
+		{
+			"name": "Registration as Client with Individual",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseData = pm.response.json();\r",
+							"const requestBody=JSON.parse(pm.request.body.raw)\r",
+							"console.log(requestBody)\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Result object contains expected fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.result).to.be.an('object');\r",
+							"    pm.expect(responseData.result).to.include.all.keys(\r",
+							"        'fieldCount',\r",
+							"        'affectedRows',\r",
+							"        'insertId',\r",
+							"        'serverStatus',\r",
+							"        'warningCount',\r",
+							"        'message',\r",
+							"        'protocol41',\r",
+							"        'changedRows'\r",
+							"    );\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response status code is 200 or 400\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+							"});\r",
+							"\r",
+							"// pm.response.code === 201 && pm.test(\"it should respond expected properties if user created\", () => {\r",
+							"pm.response.code === 200 && pm.test(\"it should respond expected properties if user created\", () => {\r",
+							"    // Store Data\r",
+							"    pm.collectionVariables.set(\"email\",requestBody.email)\r",
+							"    pm.collectionVariables.set(\"PersonID\",requestBody.PersonID)\r",
+							"    pm.collectionVariables.set(\"PersonID\",requestBody.PersonID)\r",
+							"    pm.collectionVariables.set(\"username\",requestBody.username)\r",
+							"    pm.environment.set(\"password\",requestBody.password)\r",
+							"});\r",
+							"\r",
+							"pm.response.code === 400 && pm.test(\"it should respond 400 bad request if the request body invalid\", () => {\r",
+							"    pm.expect(responseData.message).to.be.a(\"string\");\r",
+							"    pm.expect(responseData.status).to.be.a(\"string\");\r",
+							"});\r",
+							"pm.response.code === 500 && pm.test(\"it should respond internal server error if no data is passed\", () => {\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.response.code === 409 && pm.test(\"it should respond 409 conflicts if the email is a duplicate\", () => {\r",
+							"    pm.expect(response.message).to.be.a(\"string\");\r",
+							"    pm.expect(response).to.have.property(\"message\");\r",
+							"    pm.expect(response.message).to.be.equal(\"Email already exists!\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// {\r\n//     \"PersonID\":\"{{$randomUUID}}\",\r\n//     \"accountType\":\"client\",\r\n//     \"country\":\"{{$randomCountry}}\",\r\n//     \"email\":\"{{$randomEmail}}\",\r\n//     \"firstName\":\"{{$randomFirstName}}\",\r\n//     \"lastName\":\"{{$randomLastName}}\",\r\n//     \"password\":\"{{$randomPassword}}\",\r\n//     \"rules\":\"agree\",\r\n//     \"username\":\"{{$randomUserName}}\"\r\n// }\r\n\r\n{\r\n    \r\n}\r\n\r\n// {\r\n//     \"PersonID\":\"@abc\",\r\n//     \"accountType\":\"client\",\r\n//     \"country\":\"Bangladesh\",\r\n//     \"email\":\"abc@gmail.com\",\r\n//     \"firstName\":\"abc\",\r\n//     \"lastName\":\"def\",\r\n//     \"password\":\"123456\",\r\n//     \"rules\":\"agree\",\r\n//     \"username\":\"@abc\"\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/userProfile",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"userProfile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"PersonID\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"Bangladesh\",\r\n    \"email\":\"testEmail@gmail.com\",\r\n    \"firstName\":\"firstName\",\r\n    \"lastName\":\"lastName\",\r\n    \"password\":\"123456\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"testEmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin,Accept-Encoding"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"ca-P1DMm1r3rLb344m8OGKxYM1ZnQw\""
+						},
+						{
+							"key": "content-length",
+							"value": "150"
+						},
+						{
+							"key": "content-encoding",
+							"value": "br"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:29:40 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"massage\": \"create data data successfully\",\n    \"result\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 1,\n        \"insertId\": 1453,\n        \"serverStatus\": 2,\n        \"warningCount\": 1,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n}"
+				},
+				{
+					"name": "400 Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\"\r\n    // \"username\":\"{{$randomUserName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"70-qE1M4AnsDfgM2OVJ70IhbblD1+o\""
+						},
+						{
+							"key": "content-length",
+							"value": "112"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:52:29 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"fail\",\n    \"message\": \"couldn't create data\",\n    \"error\": \"ER_BAD_NULL_ERROR: Column 'username' cannot be null\"\n}"
+				},
+				{
+					"name": "Registration as Client with Individual",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"{{$randomUserName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin,Accept-Encoding"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"ca-0WTolJCDfQnmBSRAxuskiqdOdUo\""
+						},
+						{
+							"key": "content-length",
+							"value": "150"
+						},
+						{
+							"key": "content-encoding",
+							"value": "br"
+						},
+						{
+							"key": "date",
+							"value": "Mon, 12 Feb 2024 12:15:37 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"massage\": \"create data data successfully\",\n    \"result\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 1,\n        \"insertId\": 1480,\n        \"serverStatus\": 2,\n        \"warningCount\": 1,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Registration as Freelancer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Result object contains expected fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.result).to.be.an('object');\r",
+							"    pm.expect(responseData.result).to.include.all.keys(\r",
+							"        'fieldCount',\r",
+							"        'affectedRows',\r",
+							"        'insertId',\r",
+							"        'serverStatus',\r",
+							"        'warningCount',\r",
+							"        'message',\r",
+							"        'protocol41',\r",
+							"        'changedRows'\r",
+							"    );\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response status code is 200 or 400\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"Freelancer\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"{{$randomUserName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/userProfile",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"userProfile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"PersonID\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"Bangladesh\",\r\n    \"email\":\"testEmail@gmail.com\",\r\n    \"firstName\":\"firstName\",\r\n    \"lastName\":\"lastName\",\r\n    \"password\":\"123456\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"testEmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin,Accept-Encoding"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"ca-P1DMm1r3rLb344m8OGKxYM1ZnQw\""
+						},
+						{
+							"key": "content-length",
+							"value": "150"
+						},
+						{
+							"key": "content-encoding",
+							"value": "br"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:29:40 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"massage\": \"create data data successfully\",\n    \"result\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 1,\n        \"insertId\": 1453,\n        \"serverStatus\": 2,\n        \"warningCount\": 1,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n}"
+				},
+				{
+					"name": "400 Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\"\r\n    // \"username\":\"{{$randomUserName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"70-qE1M4AnsDfgM2OVJ70IhbblD1+o\""
+						},
+						{
+							"key": "content-length",
+							"value": "112"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:52:29 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"fail\",\n    \"message\": \"couldn't create data\",\n    \"error\": \"ER_BAD_NULL_ERROR: Column 'username' cannot be null\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Registration as Talent Manager",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Result object contains expected fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.result).to.be.an('object');\r",
+							"    pm.expect(responseData.result).to.include.all.keys(\r",
+							"        'fieldCount',\r",
+							"        'affectedRows',\r",
+							"        'insertId',\r",
+							"        'serverStatus',\r",
+							"        'warningCount',\r",
+							"        'message',\r",
+							"        'protocol41',\r",
+							"        'changedRows'\r",
+							"    );\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response status code is 200 or 400\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"talent_manager\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"{{$randomUserName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/userProfile",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"userProfile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"PersonID\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"Bangladesh\",\r\n    \"email\":\"testEmail@gmail.com\",\r\n    \"firstName\":\"firstName\",\r\n    \"lastName\":\"lastName\",\r\n    \"password\":\"123456\",\r\n    \"rules\":\"agree\",\r\n    \"username\":\"testEmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin,Accept-Encoding"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"ca-P1DMm1r3rLb344m8OGKxYM1ZnQw\""
+						},
+						{
+							"key": "content-length",
+							"value": "150"
+						},
+						{
+							"key": "content-encoding",
+							"value": "br"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:29:40 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"massage\": \"create data data successfully\",\n    \"result\": {\n        \"fieldCount\": 0,\n        \"affectedRows\": 1,\n        \"insertId\": 1453,\n        \"serverStatus\": 2,\n        \"warningCount\": 1,\n        \"message\": \"\",\n        \"protocol41\": true,\n        \"changedRows\": 0\n    }\n}"
+				},
+				{
+					"name": "400 Bad Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"PersonID\":\"{{$randomUUID}}\",\r\n    \"accountType\":\"client\",\r\n    \"country\":\"{{$randomCountry}}\",\r\n    \"email\":\"{{$randomEmail}}\",\r\n    \"firstName\":\"{{$randomFirstName}}\",\r\n    \"lastName\":\"{{$randomLastName}}\",\r\n    \"password\":\"{{$randomPassword}}\",\r\n    \"rules\":\"agree\"\r\n    // \"username\":\"{{$randomUserName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/userProfile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"userProfile"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "vary",
+							"value": "Origin"
+						},
+						{
+							"key": "access-control-allow-credentials",
+							"value": "true"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"70-qE1M4AnsDfgM2OVJ70IhbblD1+o\""
+						},
+						{
+							"key": "content-length",
+							"value": "112"
+						},
+						{
+							"key": "date",
+							"value": "Sun, 11 Feb 2024 13:52:29 GMT"
+						},
+						{
+							"key": "server",
+							"value": "LiteSpeed"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=2592000, h3-29=\":443\"; ma=2592000, h3-Q050=\":443\"; ma=2592000, h3-Q046=\":443\"; ma=2592000, h3-Q043=\":443\"; ma=2592000, quic=\":443\"; ma=2592000; v=\"43,46\""
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"fail\",\n    \"message\": \"couldn't create data\",\n    \"error\": \"ER_BAD_NULL_ERROR: Column 'username' cannot be null\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Client Profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/client/postingJob",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"client",
+						"postingJob"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://hire.server.elite-professionals.in/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "PersonID",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		}
+	]
+}
